@@ -53,13 +53,26 @@ import os
 
 def runtime_entry(runtime_conn, binder_conn, path, package):
     from .Runtime import run_runtime
+    try:
+        print("Runtime called", flush=True)
 
-    run_runtime(
-        runtime_conn,
-        binder_conn,
-        path,
-        package
-    )
+        run_runtime(
+            runtime_conn,
+            binder_conn,
+            path,
+            package
+        )
+
+        print("run_runtime returned", flush=True)
+
+    except BaseException:
+        import traceback
+
+        print("========== RUNTIME CRASH ==========", flush=True)
+        traceback.print_exc()
+        print("===================================", flush=True)
+
+        raise
 
 
 class AppProcess:
