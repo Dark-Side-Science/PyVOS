@@ -1,0 +1,6 @@
+<manifest 
+    package="com.pyvos.clock"
+    version="1.0"
+    name="Clock"
+    icon="@ic_launcher/Clock_icon.jpg">
+</manifest>

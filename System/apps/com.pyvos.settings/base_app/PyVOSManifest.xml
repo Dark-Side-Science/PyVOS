@@ -1,0 +1,6 @@
+<manifest 
+    package="com.pyvos.settings"
+    version="1.0"
+    name="Settings"
+    icon="@ic_launcher/Settings_icon.jpg">
+</manifest>

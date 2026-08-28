@@ -1,0 +1,9 @@
+<manifest 
+    package="com.kartikraj.filesapp"
+    version="1.0"
+    name="Files"
+    icon="@mipmap/app_icon.jpg">
+    <permissions>
+        <permission name="pyvos.permission.STORAGE"/>
+    </permissions>
+</manifest>

@@ -1,0 +1,12 @@
+<manifest 
+    package="com.pyvos.calculator"
+    version="1.0"
+    name="Calculator"
+    icon="@ic_launcher/Calculator_icon.jpg">
+
+    <permissions>
+        <permission name="pyvos.permission.INTERNET"/>
+        <permission name="pyvos.permission.STORAGE"/>
+    </permissions>
+
+</manifest>

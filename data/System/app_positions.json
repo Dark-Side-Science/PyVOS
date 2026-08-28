@@ -1,0 +1,7 @@
+{
+    "com.pyvos.camera": [0,2,0],
+    "com.pyvos.clock": [0,0,1],
+    "com.pyvos.calculator": [0,1,0],
+    "com.pyvos.calendar": [0, 0, 0]
+    
+}

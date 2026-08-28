@@ -1,0 +1,6 @@
+<manifest 
+    package="com.pyvos.themes"
+    version="1.0"
+    name="Themes"
+    icon="@ic_launcher/themes_icon.jpg">
+</manifest>

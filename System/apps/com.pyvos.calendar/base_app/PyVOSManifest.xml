@@ -1,0 +1,6 @@
+<manifest 
+    package="com.pyvos.calender"
+    version="1.0"
+    name="Calender"
+    icon="@ic_launcher/Calendar_icon.jpg">
+</manifest>
