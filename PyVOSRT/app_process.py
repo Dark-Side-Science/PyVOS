@@ -1,59 +1,16 @@
 from ..kernal.BinderIPC import IBinder
 import subprocess, sys, os, threading
-'''
-class AppProcess:
-    
-    def __init__(self, path, package):
-        self.path = path
-        self.package = package
-        self.r1, self.w1 = os.pipe()
-        self.r2, self.w2 = os.pipe()
-        self.system_binder = IBinder()
-        
-    def Start(self):
-        self.proc = subprocess.Popen(
-    ["python", os.path.join(os.path.dirname(__file__), "Runtime.py"), str(self.w1), str(self.r2), self.path, self.package], pass_fds=(self.w1, self.r2), stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
-        os.close(self.w1)
-        os.close(self.r2)
-        rp = os.fdopen(self.r1)
-        wp = os.fdopen(self.w2, "w")
-        threading.Thread(target=self.loop, args=(rp, wp), daemon=True).start()
-        
-    def loop(self, rp, wp):
-        while True:
-            msg = rp.readline()
-            output = self.proc.stdout.readline()
-            error = self.proc.stderr.readline()
-            if not output.strip() == "" or None:
-                print("Child said:", output)
-            if not error.strip() == "" or None:
-                print("Child throwed:", output)
-            if not msg.strip() == "" or None:
-                print("Child wrote: ", msg)
-                continue
-            msg = msg.strip()
-            if not msg:
-                continue
-            
-            self.system_binder.request(msg)
-            rep = self.system_binder.reply()
-            if rep.startswith("REQUEST_ACCEPTED|"):
-                pass
-            else:
-                wp.write(rep + "\n")
-                wp.flush()
-            print(msg)
-'''
 import multiprocessing
-import threading
-import sys
-import os
 
 
 def runtime_entry(runtime_conn, binder_conn, path, package):
-    from .Runtime import run_runtime
+    import traceback
+
+    print("========== RUNTIME PROCESS START ==========", flush=True)
+
     try:
+        from .Runtime import run_runtime
+
         print("Runtime called", flush=True)
 
         run_runtime(
@@ -65,15 +22,16 @@ def runtime_entry(runtime_conn, binder_conn, path, package):
 
         print("run_runtime returned", flush=True)
 
-    except BaseException:
-        import traceback
-
+    except BaseException as e:
         print("========== RUNTIME CRASH ==========", flush=True)
+        print("Exception:", repr(e), flush=True)
         traceback.print_exc()
-        print("===================================", flush=True)
+        print("====================================", flush=True)
 
         raise
 
+    finally:
+        print("========== RUNTIME PROCESS END ==========", flush=True)
 
 class AppProcess:
 
@@ -107,7 +65,7 @@ class AppProcess:
                 self.path,
                 self.package
             ),
-            daemon=True
+            daemon=False
         )
 
         self.proc.start()
@@ -123,62 +81,77 @@ class AppProcess:
 
     def loop(self):
 
-        while self.proc.is_alive():
+        while True:
 
-            # ==========================================
+            # If process has died, don't try to communicate with it
+            if not self.proc.is_alive():
+                print(
+                    "Runtime process exited.",
+                    "exitcode =", self.proc.exitcode
+                )
+
+                break
+
             # Runtime -> AppProcess
-            # ==========================================
             if self.runtime_parent.poll(0.01):
 
                 try:
                     msg = self.runtime_parent.recv()
 
-                except (EOFError, BrokenPipeError, OSError):
-                    print("Runtime disconnected.")
+                except EOFError:
+                    print(
+                        "Runtime pipe closed.",
+                        "exitcode =",
+                        self.proc.exitcode
+                    )
                     break
 
-                if not msg:
-                    continue
+                except (BrokenPipeError, OSError) as e:
+                    print("Runtime IPC error:", repr(e))
+                    break
 
-                print("Child wrote:", msg)
+                if msg:
+                    print("Child wrote:", msg)
 
-                self.system_binder.request(msg)
+                    self.system_binder.request(msg)
+                    rep = self.system_binder.reply()
 
-                rep = self.system_binder.reply()
+                    if rep and not rep.startswith("REQUEST_ACCEPTED|"):
+                        try:
+                            self.runtime_parent.send(rep)
+                        except (EOFError, BrokenPipeError, OSError) as e:
+                            print("Failed sending Runtime reply:", repr(e))
+                            break
 
-                if rep and not rep.startswith("REQUEST_ACCEPTED|"):
-                    try:
-                        self.runtime_parent.send(rep)
-                    except (EOFError, BrokenPipeError, OSError):
-                        print("Runtime disconnected while sending.")
-                        break
-
-            # ==========================================
             # Binder requests from Runtime
-            # ==========================================
             if self.binder_parent.poll(0.01):
 
                 try:
-                    msg = self.binder_parent.recv()
+                    req = self.binder_parent.recv()
 
-                except (EOFError, BrokenPipeError, OSError):
-                    print("Runtime disconnected.")
+                except EOFError:
+                    print(
+                        "Runtime binder pipe closed.",
+                        "exitcode =",
+                        self.proc.exitcode
+                    )
                     break
 
-                if not msg:
-                    continue
+                except (BrokenPipeError, OSError) as e:
+                    print("Binder IPC error:", repr(e))
+                    break
 
-                print("Binder request:", msg)
+                if req:
+                    print("Binder request:", req)
 
-                self.system_binder.request(msg)
+                    self.system_binder.request(req)
+                    rep = self.system_binder.reply()
 
-                rep = self.system_binder.reply()
-
-                if rep:
-                    try:
-                        self.binder_parent.send(rep)
-                    except (EOFError, BrokenPipeError, OSError):
-                        print("Runtime disconnected while sending.")
-                        break
+                    if rep:
+                        try:
+                            self.binder_parent.send(rep)
+                        except (EOFError, BrokenPipeError, OSError) as e:
+                            print("Failed sending binder reply:", repr(e))
+                            break
 
         print("AppProcess IPC loop stopped.")

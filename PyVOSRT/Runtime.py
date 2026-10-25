@@ -1,7 +1,7 @@
 import os, importlib, datetime, sys, subprocess, builtins, threading
 import time
+from PySide6.QtWidgets import QApplication
 
-from Frameworks.API.pyvos.ui.widgets import setBinderForWidgets
 from .BinderProxy import BinderProxy
 
 BASE = os.path.abspath(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -67,7 +67,7 @@ class PyVOSRunTime:
         self._RuntimeBuiltins = {}
         for name in dir(builtins):
             self._RuntimeBuiltins[name] = getattr(builtins, name)
-        self._RuntimeBuiltins.pop("print", None)
+       # self._RuntimeBuiltins.pop("print", None)
         self._RuntimeBuiltins.pop("builtins", None)
         self._RuntimeBuiltins.pop("open", None)
         self._RuntimeBuiltins.pop("eval", None)
@@ -80,35 +80,45 @@ class PyVOSRunTime:
         sys.path.insert(0, self.PyVOS_import_path)
         sys.path.insert(0, self.app_dir)
         print("Runtime setup done", flush=True)
-        
+
     def start_lifecycle(self):
         print("lifecycle started", flush=True)
+
+        path = os.path.join(
+            self.app_path,
+            "base_app",
+            "MainActivity.py"
+        )
+
+        print("Loading:", path, flush=True)
+
         spec = importlib.util.spec_from_file_location(
-    "MainActivity",                 
-    os.path.join(self.app_path, "base_app", "MainActivity.py")  
-)
+            "MainActivity",
+            path
+        )
+
         print("after specs", flush=True)
+
         module = importlib.util.module_from_spec(spec)
+
         module.__dict__["__builtins__"] = self._RuntimeBuiltins
-        
-        safe_importer = SafeImporter()
-        self._RuntimeBuiltins["__import__"] = safe_importer._safe_import
-        for mod in ["abc123455"]: #"os", "importlib", "builtins", "subprocess", "datetime", "threading", "sys"
-            if mod in sys.modules:
-                del sys.modules[mod]
-        print("importer enabled", flush=True)
-        safe_importer.enable()
+
+        print("importing MainActivity...", flush=True)
+
         spec.loader.exec_module(module)
-        AppClass = getattr(module, "MainActivity")
-        self.app = AppClass("c")
-        del spec
-        del module
-        if "MainActivity" in sys.modules:
-            del sys.modules["MainActivity"]
-        del AppClass
-        print("app starting", flush=True)
-        self.app.onCreate()
-        print("app started", flush=True)
+
+        print("MainActivity.py loaded", flush=True)
+
+        MainActivity = getattr(module, "MainActivity")
+
+        print("MainActivity class found", flush=True)
+
+        print("Creating MainActivity...", flush=True)
+        self.activity = MainActivity()
+        print("MainActivity created", flush=True)
+        print("Showing MainActivity...", flush=True)
+        self.activity.onCreate()
+        print("MainActivity shown", flush=True)
         
     def pause_lifecycle(self):
         self.app.onPause()
@@ -152,11 +162,10 @@ class Log:
 
 def runtime_loop(runtime, runtime_conn, binder_conn):
 
-    binder = BinderProxy(binder_conn)
+    binder = BinderProxy(binder_conn, runtime.package)
 
     # Make Binder available to framework UI classes
     setBinderForWidgets(binder)
-
     runtime.start_lifecycle()
 
     # Tell AppProcess that Runtime started
@@ -187,19 +196,42 @@ def runtime_loop(runtime, runtime_conn, binder_conn):
                 binder.send_request(msg)
 
 
+import threading
+import time
+
 def run_runtime(runtime_conn, binder_conn, path, package):
+
+    print("========== RUN_RUNTIME ==========", flush=True)
+
+    print(
+        "runtime_conn closed:",
+        runtime_conn.closed,
+        flush=True
+    )
+
+    print(
+        "binder_conn closed:",
+        binder_conn.closed,
+        flush=True
+    )
 
     runtime = PyVOSRunTime(path, package)
 
-    threading.Thread(
-        target=runtime_loop,
-        args=(runtime, runtime_conn, binder_conn),
-        daemon=True
-    ).start()
+    print("Runtime setup done", flush=True)
+    from pyvos.ui.widgets import setBinderForWidgets
+    binder = BinderProxy(binder_conn, package)
 
-    # Keep Runtime process alive
-    while runtime.isRunning:
-        time.sleep(0.1)
+    print("BinderProxy created", flush=True)
 
+    setBinderForWidgets(binder)
+
+    print("Starting lifecycle...", flush=True)
+
+    runtime.start_lifecycle()
+
+    print("Lifecycle returned!", flush=True)
+
+    while True:
+        time.sleep(1)
 
 

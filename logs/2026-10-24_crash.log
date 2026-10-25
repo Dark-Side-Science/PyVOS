@@ -1,0 +1,693 @@
+
+
+————————————————————————
+19:53:11  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:12  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:12  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:53:37  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:37  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:37  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:53:58  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:58  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:58  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:53:59  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:59  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:53:59  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:54:01  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:54:01  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:54:01  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:54:30  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:54:30  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:54:30  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:54:54  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:54:54  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:54:54  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:55:23  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:55:23  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:55:23  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:55:25  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:55:25  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+
+
+————————————————————————
+19:55:25  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 527
+    cls._counter += 1
+    ^^^
+SyntaxError: invalid syntax. Did you mean 'False'?
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax. Perhaps you forgot a comma? (WindowManagerService.py, line 527)
+
+
+
+————————————————————————
+19:56:23  [ERROR]  Failed to import system service(s)
+Error:  invalid syntax (WindowManagerService.py, line 582)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 582
+    def
+       ^
+SyntaxError: invalid syntax
+
+
+
+————————————————————————
+19:56:23  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: invalid syntax (WindowManagerService.py, line 582)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 582
+    def
+       ^
+SyntaxError: invalid syntax
+
+
+
+————————————————————————
+19:56:23  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 582
+    def
+       ^
+SyntaxError: invalid syntax
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: invalid syntax (WindowManagerService.py, line 582)
+
+
+
+————————————————————————
+19:56:44  [ERROR]  Failed to import system service(s)
+Error:  unindent does not match any outer indentation level (WindowManagerService.py, line 716)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 86, in __loadSystemServices
+    from ..system_server.ActivityManagerService import ActivityManagerService
+  File "E:\PyVOS\system_server\ActivityManagerService.py", line 2, in <module>
+    from ..PyVOSRT.app_process import AppProcess
+  File "E:\PyVOS\PyVOSRT\app_process.py", line 1, in <module>
+    from ..kernal.BinderIPC import IBinder
+  File "E:\PyVOS\kernal\BinderIPC.py", line 1, in <module>
+    from system_server.WindowManagerService import WindowManagerService
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 716
+    '''   def setSpacing(self, package, id, args):
+                                                  ^
+IndentationError: unindent does not match any outer indentation level
+
+
+
+————————————————————————
+19:56:44  [ERROR]  FileSystem not loadable, probably edited by the user.
+Error: unindent does not match any outer indentation level (WindowManagerService.py, line 716)
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 716
+    '''   def setSpacing(self, package, id, args):
+                                                  ^
+IndentationError: unindent does not match any outer indentation level
+
+
+
+————————————————————————
+19:56:44  [ERROR]  Initilisation failed
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 146, in __loadFileSystem
+    from SystemComponents.FileSystem import FileSystem
+  File "E:\PyVOS\SystemComponents\FileSystem.py", line 4, in <module>
+    from SystemComponents.PermissionManager import PermissionManager
+  File "E:\PyVOS\SystemComponents\PermissionManager.py", line 1, in <module>
+    from system_server.WindowManagerService import HomeScreen
+  File "E:\PyVOS\system_server\WindowManagerService.py", line 716
+    '''   def setSpacing(self, package, id, args):
+                                                  ^
+IndentationError: unindent does not match any outer indentation level
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "E:\PyVOS\kernal\Boot.py", line 33, in init
+    self.__loadFileSystem()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "E:\PyVOS\kernal\Boot.py", line 152, in __loadFileSystem
+    raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
+PyVOS.kernal.Boot.SystemCrash: FileSystem not loadable, probably edited by the user.
+Error: unindent does not match any outer indentation level (WindowManagerService.py, line 716)
+
