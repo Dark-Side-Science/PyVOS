@@ -13,6 +13,7 @@ class SystemServer:
         self._sm.RegisterServices(self._services)
         self.WM = self._sm.getService("WindowManager")
         try:
+            self.WM.WindowManagerService()
             H = self.WM.HomeScreen.instance()
             H.show()
             app.exec()
