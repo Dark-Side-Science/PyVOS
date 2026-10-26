@@ -1,19 +1,13 @@
-
-# Virtual environments
-.venv/
-venv/
-
 # Python cache
 __pycache__/
-*.py[cod]
+*.pyc
+*.pyo
+
+# Virtual environment
+.venv/
 
 # IDE
 .idea/
 
 # Logs
 logs/
-
-# Build files
-build/
-dist/
-*.egg-info/
