@@ -26,6 +26,8 @@ _–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–\n""", "")
         
     def init(self):
         print("Boot started at time: ", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().microsecond // 1000)
+        boot_start_time = time.perf_counter()
+        boot_start_datetime = datetime.now()
         log.info("Boot started at time: ", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), datetime.now().microsecond // 1000)
         try:
             self.__checkAndInstallMissingSystemRequirements()
@@ -37,6 +39,15 @@ _–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–\n""", "")
             self.__loadWindowService()
         #   self.__loadApps()
           # self.__loadSystemComponents()
+
+            # ... PyVOS boot process ...
+
+            boot_end_time = datetime.now()
+            boot_duration = time.perf_counter() - boot_start_time
+
+            print(f"Boot finished at {boot_end_time.strftime('%Y-%m-%d %H:%M:%S')}.{boot_end_time.microsecond // 1000:03d}"
+                f"\nBoot duration: {boot_duration:.3f} seconds"
+                "\nStarting Operating System...")
             self.__StartOperatingSystem()
             self.__manageLogs()
         except:
@@ -88,26 +99,20 @@ _–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–\n""", "")
             self._ActivityManager = ActivityManagerService()
             self._PackageManager = PackageManagerService()
             log.info("System services loaded successfully")
-            print("System services loaded successfully")
         except Exception as e:
             log.error("Failed to import system service(s)\nError: ", e)
-            print("Failed to import system service(s)\nError: ", e)
 
     def __checkAndInstallMissingSystemRequirements(self):
         if self.is_android():
             log.info("Host system recognised as mobile, Android")
-            print("Host system recognised as mobile, Android")
             try:
                 import PySide6
                 log.info("PySide6 linkeable")
-                print("PySide6 linkeable")
             except ImportError:
                 log.warn("PySide6 unlinkeable, probably not installed\nTrying to install PySide6...")
-                print("PySide6 unlinkeable, probably not installed\nTrying to install PySide6...")
                 try:                    
                     self.install("pyside6")
                     log.info("PySide6 installed successfully")
-                    print("PySide6 installed successfully")
                 except:
                     log.error("Failed to install PySide6. System abort.")
                     raise SystemCrash("Failed to load window backend.")
@@ -115,28 +120,22 @@ _–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–\n""", "")
             try:
                 import PySide6
                 log.info("PySide6 loaded")
-                print("PySide6 loaded")
             except ImportError:
                 log.warn("PySide6 unlinkable, probably not installed\nTrying to install PySide6...")
-                print("PySide6 unlinkable, probably not installed\nTrying to install PySide6...")
-                try:                    
+                try:
                     self.install("pyside6")
                     log.info("PySide6 installed successfully")
-                    print("PySide6 installed successfully")
                 except Exception as e:
                     log.error("Failed to install PySide6. System abort.\nError: ", e)
                     raise SystemCrash("Failed to load window backend.")
             try:
                 from PySide6.QtWebEngineWidgets import QWebEngineView
                 log.info("PySide6 loaded")
-                print("PySide6 loaded")
             except ImportError:
                 log.warn("QtWebEngineView unlinkable, probably not installed\nTrying to install QtWebEngineView...")
-                print("QtWebEngineView unlinkable, probably not installed\nTrying to install QtWebEngineView...")
-                try:                    
+                try:
                     self.install("PySide6-WebEngine")
                     log.info("QtWebEngineView installed successfully")
-                    print("QtWebEngineView installed successfully")
                 except Exception as e:
                     log.error("Failed to install QtWebEngineView. System abort.\nError: ", e)
                     raise SystemCrash("Failed to load web engine.")
@@ -146,7 +145,6 @@ _–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–\n""", "")
             from SystemComponents.FileSystem import FileSystem
             self._FileSystem = FileSystem
             log.info("FileSystem loaded successfully")
-            print("FileSystem loaded successfully")
         except Exception as e:
             log.error(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
             raise SystemCrash(f"FileSystem not loadable, probably edited by the user.\nError: {e}")
@@ -158,7 +156,6 @@ _–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–\n""", "")
             log.info("Runtime laded")
         except IndexError:
             log.info("Runtime loaded")
-            print("Runtime loaded")
         except Exception as e:
             log.error("Runtime unloadable, probably edited by the user\nError: ", e)
             raise SystemCrash("Runtime unloadable, probably edited by the user")
@@ -168,32 +165,26 @@ _–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–_–\n""", "")
             from ..system_server.SpeechService.TTS import TextToSpeech
             self._TTS = TextToSpeech
             log.info("Text to speech service loaded")
-            print("Text to speech service loaded")
         except Exception as e:
             log.error("Text to speech service unloadable, probably edited by the user\nError: ", e)
-            print("Text to speech service unloadable, probably edited by the user\nError: ", e)
-            
+
         try:
             from ..system_server.SpeechService.Recognizer import SpeechRecognizer
             self._Recognizer = SpeechRecognizer
             log.info("Speech recognizer loaded")
-            print("Speech recognizer loaded")
         except Exception as e:
             log.error("Speech recognizer unloadable, probably edited by the user\nError: ", e)
-            print("Speech recognizer unloadable, probably edited by the user\nError: ", e)
-    
+
     def __loadWindowService(self):
         try:
             from ..system_server import WindowManagerService
             self._WindowManager = WindowManagerService
             log.info("Window manager loaded")
-            print("Window manager loaded")
         except Exception as e:
             log.error("Window manager unloadable, probably edited by the user\nError: ", e)
             raise SystemCrash("Window manager unloadable, probably edited by the user")
             
     def __StartOperatingSystem(self):
-        print("starting operating system")
         log.info("starting operating system")
         try:
             from ..system_server.SystemServer import SystemServer

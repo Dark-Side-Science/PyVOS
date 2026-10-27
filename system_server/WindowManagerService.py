@@ -1,4 +1,4 @@
-import os, json, sys, time
+import os, json, time, queue
 
 from PySide6.QtWidgets import (
     QWidget, QScrollArea, QGridLayout,
@@ -12,7 +12,8 @@ from PySide6.QtCore import (
 )
 from .ServiceManager import ServiceManager as SM
 from .LockSettingsManager import LockSettingsService
-
+from .WindowManager.UIEventDispatcher import UIEventDispatcher
+from concurrent.futures import Future
 
 
 
@@ -43,11 +44,9 @@ class AppButton(QPushButton):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-
         self.timer = QTimer(self)
         self.timer.setSingleShot(True)
         self.timer.timeout.connect(self._on_long_press)
-
         self.long_press_time = 600   # milliseconds
         self.is_long_press = False
         self.press_pos = QPoint()
@@ -79,20 +78,14 @@ class HomeScreen(QMainWindow):
     _instance = None
     
     def __init__(self):
-        print("super initilising")
         super().__init__()
-        print("super initilised")
         self.PM = SM.getService("PackageManager")
-        print("got service PM")
         self.lockservice = LockSettingsService()
-        print("lock settings service instanced")
         self.setAutoFillBackground(True)
         self.wallpaper_path = SystemImagesFile("Home_Wallpaper")
-        print("got wallpaper path")
         self.internet_on = False
         wallpaper = self.wallpaper_path
         self.apply_scaled_background()
-        print("applied scaled background")
         self.setWindowTitle("Home")
         self.resize(360, 640)
         
@@ -103,13 +96,10 @@ QMainWindow {{
     background-position: center;
 }}
 """)
-        print("style set")
         self.recentApps = {}
         app_position_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "System", "app_positions.json")
-        print("app position file loaded")
         with open(app_position_file) as f:
             self.app_positions = json.load(f)
-            print("app positions loaded")
         # =========================
         # SCROLL AREA
         # =========================
@@ -264,9 +254,6 @@ QMainWindow {{
         count = 0
         i = 0
         apps = self.PM.getInstalledPackages()
-        
-        
-            
         for p in range(self.page_count):
             page = QWidget()            
             page.setAttribute(Qt.WA_TranslucentBackground)
@@ -322,8 +309,6 @@ QMainWindow {{
 
             self.main_layout.addWidget(page, 0, p)
             self.page_layouts.append(layout)
-            print(self.page_layouts)
-            
             
 
     # =====================================================
@@ -501,12 +486,7 @@ class ObservableString(QObject):
             self._value = new_value
             self.changed.emit(new_value)
 
-
-import queue
-from concurrent.futures import Future
-from PySide6.QtCore import QObject, Signal, Slot, Qt
-
-class ThreadCanceller(QObject):
+class UIThreadDispatcher(QObject):
     request_ready = Signal()
 
     def __init__(self, parent=None):
@@ -550,75 +530,12 @@ class PyVOSWindow:
         self.visible = False
 
 
-class ID:
-    _counter = 0
-
-    @classmethod
-    def generate(cls, prefix="OBJ"):
-        cls._counter += 1
-
-        return f"{prefix}_{cls._counter:06d}"
-
 
 class WindowManagerService:
     _instance = None
     def __init__(self):
-        self._WINDOWS = {}
-        self.ThreadCanceller = ThreadCanceller()
-        print("WMS CREATED ON:", QThread.currentThread())
-        print("DISPATCHER THREAD:", self.ThreadCanceller.thread())
-        self._WINDOW_COUNT = 0
-        self._WIDGETS = {}
-        self._WIDGET_COUNT = 0
-        self._COMMANDS = {
-            "NEW": {
-                "WINDOW": self.AddWindow,
-                "PUSHBUTTON": self.AddPushButton,
-                "GRIDLAY": self.AddGridLayout,
-                "VLAYOUT": self.AddVerticalLayout,
-                "LABEL": self.AddLabel
-            },
-
-            "WINDOW": {
-                "SETLAY": self.setLayout,
-                "RESIZE": self.resize,
-                "SHOW": self.show
-            },
-
-            "BUTTON": {
-                "SET_TEXT": self.setText,
-                "SET_ICON": self.ButtonSetIcon,
-                "SET_ICON_SIZE": self.ButtonSetIconSize,
-                "SET_CHECKABLE": self.ButtonSetCheckable,
-                "SET_ENABLED": self.ButtonSetEnabled,
-                "SET_TOOLTIP": self.ButtonSetTooltip,
-                "CHECKABLE": self.ButtonIsCheckable,
-                "CHECKED": self.ButtonIsChecked,
-                "ENABLED": self.ButtonIsEnabled,
-                "TOOLTIP": self.ButtonTooltip
-            },
-
-            "GRIDLAY": {
-                "ADDWID": self.addWidget,
-                "ADDLAY": self.addLayout,
-                "SPACING": self.setSpacing,
-                "H_SPACING": self.setHorizontalSpacing,
-                "V_SPACING": self.setVerticalSpacing,
-                "CONTENTS_MARGINS": self.setContentsMargins,
-                "RSTRETCH": self.setRowStretch,
-                "CSTRETCH": self.setColumnStretch,
-                "ROWMH": self.setRowMinimumHeight,
-                "COLMW": self.setColumnMinimumWidth,
-                "ITEM_AT": self.itemAtPosition,
-                "ROW_COUNT": self.rowCount,
-                "COL_COUNT": self.columnCount,
-                "SET_ALIGNMENT": self.setAlignment,
-            },
-
-            "VLAYOUT": {
-                "ADDWID": self.addWidget
-            }
-        }
+        self.EventDispatcher = UIEventDispatcher()
+        self.UIThreadDispatcher = UIThreadDispatcher()
 
     @classmethod
     def instance(cls):
@@ -627,284 +544,10 @@ class WindowManagerService:
         return cls._instance
 
     def requestUI(self, req):
-        return self.ThreadCanceller.submit(req)
+        return self.UIThreadDispatcher.submit(req)
 
-    def _requestUI(self, request):
-        _request = request.split("|")
-        if _request[2] == "NEW":
-            try:
-                if _request[4] == "TEXT":
-                    return self._COMMANDS["NEW"][_request[3]](_request[0], _request[5])
-            except: pass
-            return self._COMMANDS["NEW"][_request[3]](_request[0])
-        if _request[2] == "BUTTON_ID":
-            return self._COMMANDS["BUTTON"][_request[4]](_request[0], _request[3], _request[5:])
-        if _request[2] == "GRIDLAY_ID":
-            return self._COMMANDS["GRIDLAY"][_request[4]](_request[0], _request[3], _request[5:])
-        if _request[2] == "WINDOW_ID":
-            if _request[4] == "SHOW":
-                return self._COMMANDS["WINDOW"][_request[4]](_request[0], _request[3])
-            return self._COMMANDS["WINDOW"][_request[4]](_request[0], _request[3], _request[5:])
-        if _request[2] == "VLAYOUT_ID":
-            return self._COMMANDS["VLAYOUT"][_request[4]](_request[0], _request[3], _request[5:])
+    def _requestUI(self, req):
+        req = req.replace("UI|", "")
+        return self.EventDispatcher.dispatch(req)
 
-    def AddWindow(self, package, *args):
-        self._WINDOW_COUNT += 1
-        window = QWidget()
-        window_id = f"WINDOW_{self._WINDOW_COUNT:06d}"
-        self._WINDOWS[window_id] = {"package": package, "window": window}
-        return window_id
-
-    def AddPushButton(self, package, text=""):
-        self._WIDGET_COUNT += 1
-        button = QPushButton()
-        widget_id = f"PUSHBUTTON_{self._WIDGET_COUNT:06d}"
-        self._WIDGETS[widget_id] = {"package": package, "widget": button}
-        return widget_id
-
-    def AddGridLayout(self, package, *args):
-        self._WIDGET_COUNT += 1
-        grid = QGridLayout()
-        widget_id = f"GRIDLAYOUT_{self._WIDGET_COUNT:06d}"
-        self._WIDGETS[widget_id] = {"package": package, "widget": grid}
-        return widget_id
-
-    def AddLabel(self, package, *args):
-        self._WIDGET_COUNT += 1
-        label = QLabel(args[0])
-        widget_id = f"LABEL_{self._WIDGET_COUNT:06d}"
-        self._WIDGETS[widget_id] = {"package": package, "widget": label}
-        return widget_id
-
-    def AddVerticalLayout(self, package, *args):
-        self._WIDGET_COUNT += 1
-        vertical = QVBoxLayout()
-        widget_id = f"VERTICAL_{self._WIDGET_COUNT:06d}"
-        self._WIDGETS[widget_id] = {"package": package, "widget": vertical}
-        return widget_id
-
-    def getWidget(self, package, id):
-        widget = self._WIDGETS.get(id)
-        win = False
-        if widget is None:
-            widget = self._WINDOWS.get(id)
-            if widget is None:
-                return None
-            win = True
-        if widget["package"] != package:
-            return None
-        if win:
-            return widget["window"]
-        return widget["widget"]
-
-    def setText(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setText(args[0])
-        return "REQUEST_EXECUTED"
-
-    def ButtonSetIcon(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setIcon(QIcon(args[0]))
-        return "REQUEST_EXECUTED"
-
-    def ButtonSetIconSize(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setIconSize(QSize(int(args[0]), int(args[1])))
-        return "REQUEST_EXECUTED"
-
-    def ButtonSetCheckable(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setCheckable(bool(args[0]))
-        return "REQUEST_EXECUTED"
-
-    def ButtonSetEnabled(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setEnabled(bool(args[0]))
-        return "REQUEST_EXECUTED"
-
-    def ButtonSetTooltip(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setToolTip(args[0])
-        return "REQUEST_EXECUTED"
-
-    def ButtonIsCheckable(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        return widget.isCheckable()
-
-    def ButtonIsChecked(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        return widget.isChecked()
-
-    def ButtonIsEnabled(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        return widget.isEnabled()
-
-    def ButtonTooltip(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        return widget.toolTip()
-
-    def addWidget(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        _widget = self.getWidget(package, args[0])
-        widget.addWidget(_widget)
-        return "REQUEST_EXECUTED"
-
-    def addLayout(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        layout = self.getWidget(package, args[0])
-        widget.addLayout(layout)
-        return "REQUEST_EXECUTED"
-
-    def setSpacing(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setSpacing(int(args[0]))
-        return "REQUEST_EXECUTED"
-
-    def setHorizontalSpacing(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setHorizontalSpacing(int(args[0]))
-        return "REQUEST_EXECUTED"
-
-    def setVerticalSpacing(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setVerticalSpacing(int(args[0]))
-        return "REQUEST_EXECUTED"
-
-    def setContentsMargins(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setContentsMargins(int(args[0]), int(args[1]), int(args[2]), int(args[3]))
-        return "REQUEST_EXECUTED"
-
-    def setRowStretch(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setRowStretch(int(args[0]), int(args[1]))
-        return "REQUEST_EXECUTED"
-
-    def setColumnStretch(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setColumnStretch(int(args[0]), int(args[1]))
-        return "REQUEST_EXECUTED"
-
-    def setRowMinimumHeight(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setRowMinimumHeight(int(args[0]), int(args[1]))
-        return "REQUEST_EXECUTED"
-
-    def setColumnMinimumWidth(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.setColumnMinimumHeight(int(args[0]), int(args[1]))
-        return "REQUEST_EXECUTED"
-
-    def itemAtPosition(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        item = widget.ItemAtPosition(int(args[0]), int(args[1]))
-        for item_id, data in self._WIDGETS.items():
-            if data["widget"] is item:
-                return item_id
-        return None
-
-    def rowCount(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        return widget.rowCount()
-
-    def columnCount(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        return widget.columnCount()
-
-    def setAlignment(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        #INCOMPLETE
-
-    def resize(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        widget.resize(int(args[0]), int(args[1]))
-        return "REQUEST_EXECUTED"
-    
-    def setLayout(self, package, id, args):
-        widget = self.getWidget(package, id)
-        if widget is None:
-            return None
-        layout = self.getWidget(package, args[0])
-        if layout is None:
-            return None
-        widget.setLayout(layout)
-
-        return "REQUEST_EXECUTED"
-
-    def show(self, package, id):
-        print("SHOW handler entered")
-
-        app = QApplication.instance()
-
-        print("Current thread:", QThread.currentThread())
-        print("GUI thread:", app.thread())
-        print("Is GUI thread:",
-              QThread.currentThread() == app.thread())
-
-        window = self.getWidget(package, id)
-
-        if window is None:
-            return None
-
-        window.show()
-        print("Window shown")
-
-        return "REQUEST_EXECUTED"
-
-   # def show(self, package, id):
-   #     widget = self.getWidget(package, id)
-   #     if widget is None:
-   #         return None
-   #     widget.show()
-   #     return "REQUEST_EXECUTED"
 
